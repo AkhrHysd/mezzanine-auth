@@ -1,4 +1,14 @@
-export const onRequestGet: PagesFunction = async ({ request, env }) => {
+import { allowOrigin } from "../../src/utils/cors";
+
+export interface Env {
+  GITHUB_CLIENT_ID: string;
+  GITHUB_CLIENT_SECRET: string;
+  OAUTH_REDIRECT_URI: string;
+  ALLOWED_ORIGINS: string;
+  GITHUB_OAUTH_SCOPE: string;
+}
+
+export const onRequestGet: PagesFunction<Env> = async ({ request, env }) => {
   const state = crypto.randomUUID();
 
   const u = new URL("https://github.com/login/oauth/authorize");
@@ -23,20 +33,3 @@ export const onRequestGet: PagesFunction = async ({ request, env }) => {
     },
   });
 };
-
-function allowOrigin(origin: string, list?: string) {
-  const allow = (list || "")
-    .split(",")
-    .map((s) => s.trim())
-    .filter(Boolean);
-  try {
-    const o = new URL(origin);
-    return allow.some(
-      (p) =>
-        p === `${o.protocol}//${o.host}` ||
-        (p.startsWith("*.") && o.host.endsWith(p.slice(1)))
-    );
-  } catch {
-    return false;
-  }
-}

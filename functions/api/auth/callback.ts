@@ -1,4 +1,7 @@
-export const onRequestGet: PagesFunction = async ({ request, env }) => {
+import { allowOrigin } from "../../../src/utils/cors";
+import type { Env } from "../auth";
+
+export const onRequestGet: PagesFunction<Env> = async ({ request, env }) => {
   const url = new URL(request.url);
   const code = url.searchParams.get("code");
   const state = url.searchParams.get("state");
@@ -7,7 +10,7 @@ export const onRequestGet: PagesFunction = async ({ request, env }) => {
     (request.headers.get("Cookie") || "")
       .split(";")
       .map((v) => v.trim().split("="))
-      .filter(([k]) => k)
+      .filter(([k]) => k),
   );
 
   if (!code || !state || cookie["oauth_state"] !== state) {
@@ -45,20 +48,4 @@ function json(body: unknown, status: number, request: Request, env: any) {
     headers["Access-Control-Allow-Origin"] = origin;
   }
   return new Response(JSON.stringify(body), { status, headers });
-}
-function allowOrigin(origin: string, list?: string) {
-  const allow = (list || "")
-    .split(",")
-    .map((s) => s.trim())
-    .filter(Boolean);
-  try {
-    const o = new URL(origin);
-    return allow.some(
-      (p) =>
-        p === `${o.protocol}//${o.host}` ||
-        (p.startsWith("*.") && o.host.endsWith(p.slice(1)))
-    );
-  } catch {
-    return false;
-  }
 }

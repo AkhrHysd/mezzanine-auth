@@ -27,3 +27,28 @@ bun install
   ```bash
   wrangler pages deploy
   ```
+
+## Decap CMS の設定
+
+`public/admin/config.yml`
+
+```yaml
+backend:
+  name: github
+  repo: OWNER/REPO
+  branch: main
+  auth_endpoint: https://<your-pages-domain>/api/auth
+publish_mode: editorial_workflow
+media_folder: "public/images/uploads"
+public_folder: "images/uploads"
+```
+
+## セキュリティ
+
+- state を Cookie に保存し、callback で照合（CSRF 対策）
+
+- CORS は ALLOWED_ORIGINS に設定したドメインのみ許可
+
+- アクセストークンは保存しない / ログ出力しない
+
+- GitHub リポジトリ側では main ブランチ保護を推奨
