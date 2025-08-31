@@ -1,0 +1,5 @@
+name = "mezzanine-auth"
+compatibility_date = "2025-09-01"
+
+[vars]
+GITHUB_OAUTH_SCOPE = "repo"

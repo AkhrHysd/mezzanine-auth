@@ -1,0 +1,16 @@
+{
+  "name": "mezzanine-auth",
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "dev": "bunx wrangler dev",
+    "deploy:pages": "bunx wrangler pages deploy",
+    "deploy:worker": "bunx wrangler deploy",
+    "typecheck": "tsc -p tsconfig.json"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^4.20250831.0",
+    "typescript": "^5.9.2",
+    "wrangler": "latest"
+  }
+}
