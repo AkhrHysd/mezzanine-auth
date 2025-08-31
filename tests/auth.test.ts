@@ -1,4 +1,4 @@
-import { describe, it, expect } from "vitest";
+import { describe, expect, it } from "vitest";
 import { onRequestGet as auth } from "../functions/api/auth";
 
 describe("/api/auth", () => {
@@ -18,7 +18,11 @@ describe("/api/auth", () => {
     const loc = res.headers.get("Location")!;
     expect(loc).toContain("github.com/login/oauth/authorize");
     expect(loc).toContain("client_id=id");
-    expect(res.headers.get("Set-Cookie")).toMatch(/oauth_state=.*SameSite=Lax; Secure/);
-    expect(res.headers.get("Access-Control-Allow-Origin")).toBe("https://client-a.com");
+    expect(res.headers.get("Set-Cookie")).toMatch(
+      /oauth_state=.*SameSite=Lax; Secure/
+    );
+    expect(res.headers.get("Access-Control-Allow-Origin")).toBe(
+      "https://client-a.com"
+    );
   });
 });
