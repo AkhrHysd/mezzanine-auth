@@ -43,20 +43,21 @@ export const onRequestGet: PagesFunction<Env> = async ({ request, env }) => {
   }
 
   // HTMLを返して postMessage → window.close() するユーティリティ
-  const page = (msg: string) =>
-    new Response(
+  const page = (msg: string) => {
+    return new Response(
       `<!doctype html><meta charset="utf-8">
-<script>
-  try {
-    if (window.opener) {
-      // targetOrigin は「このページ（= mezzanine-auth）のオリジン」
-      window.opener.postMessage(${JSON.stringify(msg)}, window.location.origin);
-    }
-  } catch (e) {}
-  window.close();
-</script>`,
+      <script>
+        try {
+          if (window.opener) {
+            window.opener.postMessage(${JSON.stringify(msg)}, "*");
+          }
+        } catch (e) {}
+        // ほんの少し遅延して閉じるとデバッグしやすい（任意）
+        setTimeout(() => window.close(), 50);
+      </script>`,
       { headers: baseHeaders }
     );
+  };
 
   // state 検証（CSRF対策）
   const url = new URL(request.url);

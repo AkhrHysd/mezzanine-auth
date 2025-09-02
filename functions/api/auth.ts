@@ -28,15 +28,13 @@ export const onRequestGet: PagesFunction<Env> = async ({ request, env }) => {
     headers["Access-Control-Allow-Credentials"] = "true";
   }
 
-  const html = `
-<!doctype html><meta charset="utf-8">
+  const html = `<!doctype html><meta charset="utf-8">
 <script>
   try {
     if (window.opener) {
-      window.opener.postMessage("authorizing:github", window.location.origin);
+      window.opener.postMessage("authorizing:github", "*");
     }
   } catch (_) {}
-  // GitHubの認可画面へ遷移
   location.replace(${JSON.stringify(u.toString())});
 </script>`;
 
