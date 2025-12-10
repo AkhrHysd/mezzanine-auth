@@ -1,4 +1,4 @@
-# mezzanine-auth (Cloudflare Pages Functions)
+意th# mezzanine-auth (Cloudflare Pages Functions)
 
 Decap CMS の `auth_endpoint` として使う GitHub OAuth 中継（token 発行）です。
 
@@ -19,7 +19,7 @@ bun install
 - GITHUB_CLIENT_SECRET
 - OAUTH_REDIRECT_URI (例: https://<your-pages-domain>/api/auth/callback)
 - ALLOWED_ORIGINS (例: https://client-a.com,https://*.mezzanine.app)
-- (optional) GITHUB_OAUTH_SCOPE = repo | public_repo
+- (optional) GITHUB_OAUTH_SCOPE = repo | public_repo | "repo read:org" (組織のリポジトリの場合)
 
 ## デプロイ
 

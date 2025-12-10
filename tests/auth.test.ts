@@ -26,12 +26,8 @@ describe("/api/auth", () => {
     expect(html).toContain("client_id=id");
     expect(html).toContain("scope=public_repo");
 
-    expect(res.headers.get("Set-Cookie")).toMatch(
-      /oauth_state=.*SameSite=Lax; Secure/
-    );
-    expect(res.headers.get("Access-Control-Allow-Origin")).toBe(
-      "https://client-a.com"
-    );
+    expect(res.headers.get("Set-Cookie")).toMatch(/oauth_state=.*SameSite=Lax; Secure/);
+    expect(res.headers.get("Access-Control-Allow-Origin")).toBe("https://client-a.com");
     expect(res.headers.get("Access-Control-Allow-Credentials")).toBe("true");
   });
 

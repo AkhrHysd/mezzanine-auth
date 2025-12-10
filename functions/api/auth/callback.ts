@@ -8,10 +8,7 @@ interface Env {
   ALLOWED_ORIGINS?: string;
 }
 
-export const onRequestOptions: PagesFunction<Env> = async ({
-  request,
-  env,
-}) => {
+export const onRequestOptions: PagesFunction<Env> = async ({ request, env }) => {
   const origin = request.headers.get("Origin") || "";
   const headers: Record<string, string> = {
     "Access-Control-Allow-Headers": "Content-Type, Authorization",
@@ -55,7 +52,7 @@ export const onRequestGet: PagesFunction<Env> = async ({ request, env }) => {
         // ほんの少し遅延して閉じるとデバッグしやすい（任意）
         setTimeout(() => window.close(), 50);
       </script>`,
-      { headers: baseHeaders }
+      { headers: baseHeaders },
     );
   };
 
@@ -69,14 +66,14 @@ export const onRequestGet: PagesFunction<Env> = async ({ request, env }) => {
     cookieHeader.split(";").map((v) => {
       const [k, ...rest] = v.trim().split("=");
       return [k, rest.join("=")];
-    })
+    }),
   );
 
   if (!code || !state || cookies["oauth_state"] !== state) {
     return page(
       `authorization:github:error:${JSON.stringify({
         message: "invalid_state",
-      })}`
+      })}`,
     );
   }
 
@@ -101,7 +98,7 @@ export const onRequestGet: PagesFunction<Env> = async ({ request, env }) => {
       `authorization:github:error:${JSON.stringify({
         message: "token_error",
         detail: tokenJson,
-      })}`
+      })}`,
     );
   }
 

@@ -53,7 +53,11 @@ ALLOWED_ORIGINS=https://your-project.pages.dev
 #### オプション環境変数
 
 ```bash
+# 個人リポジトリの場合（デフォルト）
 GITHUB_OAUTH_SCOPE=repo
+
+# 組織のリポジトリの場合（必須）
+GITHUB_OAUTH_SCOPE=repo read:org
 ```
 
 **注意**:
@@ -61,6 +65,7 @@ GITHUB_OAUTH_SCOPE=repo
 - `GITHUB_CLIENT_ID`と`GITHUB_CLIENT_SECRET`は[GitHub 設定](./github.md)で取得した値を使用
 - `OAUTH_REDIRECT_URI`は実際の Cloudflare Pages ドメインに合わせて設定
 - `ALLOWED_ORIGINS`にはフロントエンドのドメインを設定
+- **組織のリポジトリを使用する場合**は、`GITHUB_OAUTH_SCOPE=repo read:org` を設定してください（環境変数が設定されていない場合はデフォルトで `repo` のみが使用されます）
 
 ### 5. プロジェクトの作成
 
@@ -109,6 +114,8 @@ Cloudflare が自動的に DNS レコードを作成します。必要に応じ�
 2. **Environment variables**セクションで編集
 3. 変更後、再デプロイが必要です
 
+**重要**: 環境変数を追加・変更した後は、必ず再デプロイしてください。環境変数の変更は、新しいデプロイが作成されるまで反映されません。
+
 ## セキュリティ設定
 
 ### 1. 環境変数の保護
@@ -146,6 +153,13 @@ ALLOWED_ORIGINS=https://*.example.com
 
 - `OAUTH_REDIRECT_URI`が GitHub 設定と一致しているか確認
 - 環境変数が正しく設定されているか確認
+
+**問題**: 組織のリポジトリで "repo not found" エラーが発生する
+**解決策**:
+
+- `GITHUB_OAUTH_SCOPE=repo read:org` を環境変数に追加してください
+- 環境変数を追加した後、必ず再デプロイしてください
+- 詳細は[GitHub 設定ガイド](./github.md)の「組織のリポジトリを使用する場合の追加手順」を参照してください
 
 **問題**: CORS エラーが発生する
 **解決策**:
